@@ -55,6 +55,7 @@ Speed and memory:
 - Large title buffers get a copy in card memory, with shader writes found by hashing on the card.
 - Submissions can be sent ahead of the wait for the card (`VICTORY_LATE_WAIT`), with a relay thread that lands results as the card finishes (`VICTORY_RELAY`): in a first five-minute run the card's idle time behind the submitting thread fell from about 136 to 30 ms per frame.
 - Title memory can be opened as a graphics heap so that buffers are used in place instead of copied (`VICTORY_INPLACE`, first stage only; a probe confirmed the approach on the test GPU).
+- The synced runner uses a 512 MB card-buffer budget, non-blocking texture refreshes, and joined card/hash passes. This leaves more device memory for streamed textures; 1024 MB caused the world-loading queue to grow and produced multi-second heap-buffer stalls on the test GPU.
 - The bindless texture queue no longer uploads stale views; the view table no longer grows without bound; the pipeline library is mapped instead of read into memory.
 - An intermittent device loss was traced to the pipeline library file being replaced while mapped; fixed.
 
